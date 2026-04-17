@@ -1,6 +1,6 @@
 # Stat Wisdom Skill
 
-`stat-wisdom` 是一个面向统计学与大数据方法论场景的 Codex Skill，重点覆盖三类问题：
+`stat-wisdom` 是一个面向统计学与大数据方法论场景的 agent skill，目前可直接用于 Codex 与 Claude Code，重点覆盖三类问题：
 
 - 独立性检验、条件独立性检验、非线性相依与特征筛选
 - 充分降维（SDR），包括 `SIR`、`SAVE`、`MAVE`、`cumulative slicing`、稀疏 SDR 等方向
@@ -43,7 +43,23 @@ git clone https://github.com/Chia202/stat-wisdom-skill.git \
 
 安装后，Codex 在匹配到相关统计问题时可以自动触发这个 skill。
 
-### Option 2: Clone anywhere and invoke by path
+### Option 2: Clone into Claude Code skills directory
+
+如果你希望 Claude Code 自动发现这个 skill，直接克隆到 `~/.claude/skills` 下：
+
+```bash
+git clone https://github.com/Chia202/stat-wisdom-skill.git \
+  "$HOME/.claude/skills/stat-wisdom"
+```
+
+安装后，你可以：
+
+- 直接输入 `/stat-wisdom` 显式调用
+- 或者直接提与独立性检验、充分降维、分布式统计相关的问题，让 Claude Code 按描述自动触发
+
+如果你想让它只在某个项目内生效，也可以把仓库放到项目目录下的 `.claude/skills/stat-wisdom`。
+
+### Option 3: Clone anywhere and invoke by path
 
 如果你只是想在本地仓库里维护它，也可以克隆到任意目录：
 
@@ -53,6 +69,12 @@ cd stat-wisdom-skill
 ```
 
 随后在需要时显式引用该 skill 路径。
+
+## Compatibility Notes
+
+- Codex: 直接使用本仓库的 `SKILL.md`，`agents/openai.yaml` 提供 OpenAI/Codex 侧的附加元数据
+- Claude Code: 直接使用本仓库的 `SKILL.md`；`references/` 下的参考文件会按需加载
+- Claude 网页版 / Claude Desktop 普通聊天: 不能像 Claude Code 那样直接安装 skill；更接近的替代方案是使用 Projects 的 instructions 和 knowledge files
 
 ## How It Works
 
@@ -90,7 +112,7 @@ cd stat-wisdom-skill
 
 ### Explicit Invocation
 
-如果你希望显式调用，可以使用类似表述：
+如果你希望在 Codex 中显式调用，可以使用类似表述：
 
 ```text
 Use $stat-wisdom to explain why conditional independence testing is central in causal inference, and compare kernel-based methods with residual-based methods.
@@ -98,6 +120,16 @@ Use $stat-wisdom to explain why conditional independence testing is central in c
 
 ```text
 Use $stat-wisdom to rewrite this derivation with rigorous notation and clearer bracket nesting.
+```
+
+如果你希望在 Claude Code 中显式调用，可以直接使用 slash command：
+
+```text
+/stat-wisdom explain why conditional independence testing is central in causal inference, and compare kernel-based methods with residual-based methods.
+```
+
+```text
+/stat-wisdom rewrite this derivation with rigorous notation and clearer bracket nesting.
 ```
 
 ## Design Goals
