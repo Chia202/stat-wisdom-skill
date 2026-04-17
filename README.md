@@ -1,0 +1,138 @@
+# Stat Wisdom Skill
+
+`stat-wisdom` 是一个面向统计学与大数据方法论场景的 Codex Skill，重点覆盖三类问题：
+
+- 独立性检验、条件独立性检验、非线性相依与特征筛选
+- 充分降维（SDR），包括 `SIR`、`SAVE`、`MAVE`、`cumulative slicing`、稀疏 SDR 等方向
+- 偏统计方法导向的分布式计算与分布式学习，包括 communication-efficient SDR、去中心化学习与在线更新
+
+这个 skill 不只是提供“会哪些名词”，而是要求代理以较严谨的统计方法论框架来组织回答：先讲统计目标、数据结构、理论条件，再比较方法、指出边界，并严格统一数学符号与 LaTeX 写法。
+
+## Features
+
+- 提供导师式、克制、精确的统计回答风格，适度使用 `yes`, `exactly`, `perhaps`, `unfortunately`, `likely` 等英文词作逻辑强调
+- 优先从方法论角度回答统计问题，而不是只罗列工具或结论
+- 对独立性检验、SDR 与分布式统计分别提供独立参考文件，便于按需加载
+- 内置较严格的数学符号规范，适合论文写作、讲义整理、公式改写与方法推导
+- 明确边界：不处理纯工程部署、前端开发、DevOps 或一般编程问题
+
+## Repository Structure
+
+```text
+.
+├── SKILL.md
+├── agents/
+│   └── openai.yaml
+└── references/
+    ├── independence-testing.md
+    ├── sufficient-dimension-reduction.md
+    ├── distributed-statistics.md
+    └── notation-style.md
+```
+
+## Installation
+
+### Option 1: Clone into Codex skills directory
+
+如果你希望 Codex 自动发现这个 skill，直接克隆到 `${CODEX_HOME:-$HOME/.codex}/skills` 下：
+
+```bash
+git clone https://github.com/Chia202/stat-wisdom-skill.git \
+  "${CODEX_HOME:-$HOME/.codex}/skills/stat-wisdom"
+```
+
+安装后，Codex 在匹配到相关统计问题时可以自动触发这个 skill。
+
+### Option 2: Clone anywhere and invoke by path
+
+如果你只是想在本地仓库里维护它，也可以克隆到任意目录：
+
+```bash
+git clone https://github.com/Chia202/stat-wisdom-skill.git
+cd stat-wisdom-skill
+```
+
+随后在需要时显式引用该 skill 路径。
+
+## How It Works
+
+这个 skill 由一个主入口和四个参考文件组成：
+
+- `SKILL.md`：定义触发条件、回答流程、语气风格和使用边界
+- `references/independence-testing.md`：独立性检验、条件独立、特征筛选
+- `references/sufficient-dimension-reduction.md`：SIR、SAVE、MAVE、累积切片、结构维数等
+- `references/distributed-statistics.md`：分布式 SDR、去中心化学习、在线更新
+- `references/notation-style.md`：数学符号、LaTeX 规范、统计写作风格
+
+## Usage Examples
+
+下面这些提问适合触发这个 skill：
+
+```text
+在处理高维非线性数据时，基于距离相关系数的特征筛选相比传统 SIS 有哪些核心优势？
+```
+
+```text
+充分降维中，SIR 与 MAVE 在 model-free 场景下的基本假设有什么不同？
+```
+
+```text
+如何利用 projection correlation 来度量两个高维随机向量之间的非线性相依性？
+```
+
+```text
+在分布式计算环境下，如何实现 communication-efficient 的充分降维算法？
+```
+
+```text
+请用严格的数学符号重写下面这段统计推导，并统一使用 \operatorname{var}、\operatorname{cov}、\operatorname{pr} 的写法。
+```
+
+### Explicit Invocation
+
+如果你希望显式调用，可以使用类似表述：
+
+```text
+Use $stat-wisdom to explain why conditional independence testing is central in causal inference, and compare kernel-based methods with residual-based methods.
+```
+
+```text
+Use $stat-wisdom to rewrite this derivation with rigorous notation and clearer bracket nesting.
+```
+
+## Design Goals
+
+这个 skill 的目标不是替代所有统计学习或机器学习内容，而是强化以下能力：
+
+- 用较高的方法论密度分析统计问题
+- 在独立性检验、充分降维和分布式统计之间建立清晰的比较框架
+- 在回答中主动暴露假设、失败模式与理论边界
+- 在数学写作上维持统一、整洁、可投稿风格的记号规范
+
+## Scope and Limits
+
+适合：
+
+- 统计理论与方法问题
+- 高维数据分析与特征筛选
+- 充分降维相关方法比较与解释
+- 分布式统计方法与去中心化学习的统计视角分析
+- 统计论文、讲义、公式推导的符号规范整理
+
+不适合：
+
+- 纯工程实现与系统部署
+- 通用 Python、前端、后端或 DevOps 问题
+- 与统计方法论关系很弱的泛机器学习调参问题
+
+## Contributing
+
+如果你要继续扩展这个 skill，建议优先从以下方向补充：
+
+- 新增更细分的参考文件，例如条件独立检验、稳健统计、因果推断
+- 根据真实提问继续扩充触发词和使用案例
+- 对新的数学写作偏好做 canonical notation 级别的统一，而不是零散补丁
+
+## License
+
+MIT License
